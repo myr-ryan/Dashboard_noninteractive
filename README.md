@@ -9,6 +9,7 @@
 	pip install leafmap==0.23.3
 	pip install geopandas==0.13.2
 	pip install mapclassify==2.6.0
+	pip install streamlit-option-menu==0.3.6
 
 ## 2. How to run the code
 	streamlit run dashboard.py theme_base=light
