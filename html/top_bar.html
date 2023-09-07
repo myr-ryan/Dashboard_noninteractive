@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/styles.css">
+    <title>My Streamlit App</title>
+</head>
+<body>
+    <div class="top-bar" id="top-bar-1" onclick="navigateTo('top-bar-1')">
+        <h2>Top Bar 1 hah</h2>
+        <p>This is the first top bar content.</p>
+    </div>
+    <div class="top-bar" id="top-bar-2" onclick="navigateTo('top-bar-2')">
+        <h2>Top Bar 2</h2>
+        <p>This is the second top bar content.</p>
+    </div>
+    <div class="main-content">
+        <h1>Main Content</h1>
+        <p>This is the main content.</p>
+    </div>
+    <script>
+        function navigateTo(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+</body>
+</html>
+
+
+# Define functions for each page
+def home_page():
+    st.title("Home Page")
+    st.write("Welcome to the Home Page")
+
+def about_page():
+    st.title("About Page")
+    st.write("This is the About Page")
+
+def services_page():
+    st.title("Services Page")
+    st.write("Explore our Services")
+
+def contact_page():
+    st.title("Contact Page")
+    st.write("Contact Us")
+
+# Create a dictionary to map page names to functions
+pages = {
+    "Home": home_page,
+    "About": about_page,
+    "Services": services_page,
+    "Contact": contact_page,
+}
+
+# Create a top bar navigation menu using HTML/CSS
+top_bar = """
+<div style="background-color: #333; color: #fff; padding: 10px 0; text-align: center;">
+    <ul style="list-style-type: none; display: flex; justify-content: space-around;">
+        <li><a href="/?page=Home" style="text-decoration: none; color: #fff; font-weight: bold;">Home</a></li>
+        <li><a href="/?page=About" style="text-decoration: none; color: #fff; font-weight: bold;">About</a></li>
+        <li><a href="/?page=Services" style="text-decoration: none; color: #fff; font-weight: bold;">Services</a></li>
+        <li><a href="/?page=Contact" style="text-decoration: none; color: #fff; font-weight: bold;">Contact</a></li>
+    </ul>
+</div>
+
+<script>
+    function change_page(page_name) {
+        var content = document.getElementById("content");
+        fetch('/change_page?page=' + page_name)
+            .then(response => response.text())
+            .then(data => {
+                content.innerHTML = data;
+            });
+    }
+</script>
+"""
+# Create a top bar navigation menu using HTML/CSS
+
+# top_bar = """
+# <script>
+#     function change_page(page_name) {
+#         console.log(page_name);
+#         var content = document.getElementById("content");
+#         fetch('/?page=' + page_name)
+#             .then(response => response.text())
+#             .then(data => {
+#                 content.innerHTML = data;
+#             });
+#     }
+# </script>
+
+# <div style="background-color: #333; color: #fff; padding: 10px 0; text-align: center;">
+#     <ul style="list-style-type: none; display: flex; justify-content: space-around;">
+#         <li><a href="javascript:void(0);" onclick="change_page('Home')" style="text-decoration: none; color: #fff; font-weight: bold;">Home</a></li>
+#         <li><a href="javascript:void(0);" onclick="change_page('About')" style="text-decoration: none; color: #fff; font-weight: bold;">About</a></li>
+#         <li><a href="/?page=Services" style="text-decoration: none; color: #fff; font-weight: bold;">Services</a></li>
+#         <li><a href="/?page=Contact" style="text-decoration: none; color: #fff; font-weight: bold;">Contact</a></li>
+#     </ul>
+# </div>
+
+
+# """
+
+# <script>
+#     function change_page(page_name) {
+#         fetch('/change_page?page=' + page_name);
+#     }
+# </script>
+
+# Display the top bar navigation menu
+st.markdown(top_bar, unsafe_allow_html=True)
+
+# Determine which page to display based on the URL
+page = st.experimental_get_query_params().get('page')
+
+if page is None:
+    page = 'Home'
+else:
+    page = page[0]
+
+# Call the selected page function
+pages[page]()
